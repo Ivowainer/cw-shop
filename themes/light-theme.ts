@@ -1,12 +1,12 @@
 import { createTheme } from '@mui/material/styles';
-import { red,  } from '@mui/material/colors';
+import { red } from '@mui/material/colors';
 
 
 export const lightTheme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '##1E1E1E'
+      main: '#1E1E1E'
     },
     secondary: {
       main: '#3A64D8'
@@ -57,6 +57,8 @@ export const lightTheme = createTheme({
       },
       styleOverrides: {
         root: {
+          backgroundColor: 'white',
+          color: 'black',
           textTransform: 'none',
           boxShadow: 'none',
           borderRadius: 10,
