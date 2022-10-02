@@ -1,5 +1,5 @@
 import Head from "next/head"
-import { Navbar } from "../ui";
+import { Navbar, SideMenu } from "../ui";
 
 interface ShopLayoutProps{
     title: string;
@@ -27,7 +27,7 @@ export const ShopLayout = ({ children, title, pageDescription, imageFullUrl }: R
             <Navbar />
         </nav>
 
-        {/* Todo:Sidebar */}
+        <SideMenu />
 
         <main style={{
             margin: '80px auto',
