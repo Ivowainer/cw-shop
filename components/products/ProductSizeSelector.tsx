@@ -14,6 +14,7 @@ export const ProductSizeSelector = ({ selectedSize, sizes }: ProductSizeSelector
             <Button
                 key={ size }
                 size='small'
+                color={ selectedSize === size ? 'primary' : 'info' }
             >
                 { size }
             </Button>
