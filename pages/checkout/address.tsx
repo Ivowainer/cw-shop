@@ -3,7 +3,7 @@ import { ShopLayout } from "../../components/layouts"
 
 const AddressPage = () => {
   return (
-    <ShopLayout title={"Direction"} pageDescription={"Confirm direction"}>
+    <ShopLayout title={"Address | CW Shop"} pageDescription={"Confirm direction"}>
         <Typography variant="h1" component="h1">Direction</Typography>
 
         <Grid container spacing={2} sx={{ mt: 2 }}>
