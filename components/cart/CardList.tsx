@@ -10,7 +10,11 @@ const productsInCartProvisory = [
     initialData.products[2],
 ]
 
-export const CardList = () => {
+interface CardListProps {
+    editable?: boolean;
+}
+
+export const CardList = ({ editable = false }: CardListProps) => {
     return (
         <>
             {productsInCartProvisory.map( product => (
@@ -33,13 +37,14 @@ export const CardList = () => {
                         <Box display="flex" flexDirection='column'>
                             <Typography variant="body1">{ product.title }</Typography>
                             <Typography variant="body1">Size: <strong>M</strong></Typography>
-                            <ItemCounter />
+
+                            {editable ? <ItemCounter /> : <Typography variant="h5">3 products</Typography>}
                         </Box>
                     </Grid>
                     <Grid item xs={2} display="flex" alignItems="center" flexDirection="column">
                         <Typography variant="subtitle1">{`$${product.price}`}</Typography>
-                        {/* Editable */}
-                        <Button variant="text" color="secondary">Remove</Button>
+                        
+                        {editable && <Button variant="text" color="secondary">Remove</Button>}
                     </Grid>
                 </Grid>
             ))}

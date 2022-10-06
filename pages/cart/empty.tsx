@@ -6,7 +6,7 @@ import { ShopLayout } from "../../components/layouts"
 
 const EmptyPage = () => {
   return (
-    <ShopLayout title="Cart Empty" pageDescription="No items in the cart">
+    <ShopLayout title="Cart Empty | CW Shop" pageDescription="No items in the cart">
         <Box flexDirection={{ xs: 'column', sm: 'row'}} display='flex' justifyContent='center' alignItems='center' height='calc(100vh - 200px)'>
             <RemoveShoppingCartOutlined sx={{ fontSize: 100 }} />
             <Box display="flex" flexDirection='column' alignItems='center'>

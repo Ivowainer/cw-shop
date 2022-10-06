@@ -8,7 +8,7 @@ const product = initialData.products[0]
 
 const ProductPage = ({  }) => {
   return (
-    <ShopLayout pageDescription={product.title} title={product.description}>
+    <ShopLayout pageDescription={product.description} title={`${product.title} | CW Shop`}>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={7}>
           <ProductSlideShow images={product.images} />
