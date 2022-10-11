@@ -25,9 +25,9 @@ const RegisterPage = () => {
                 <Button color="secondary" className="circular-btn" size="large" fullWidth>Login</Button>
                 </Grid>
                 <Grid item xs={12} display="flex" justifyContent="end">
-                    <NextLink href="/auth/register" passHref>
+                    <NextLink href="/auth/login" passHref>
                         <Link underline="always">
-                            <Typography>{`You don't have account?`}</Typography>
+                            <Typography>{`You already have account?`}</Typography>
                         </Link>
                     </NextLink>
                 </Grid>
