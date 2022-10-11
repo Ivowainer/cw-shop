@@ -14,8 +14,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
         default:
             return res.status(400).json({ message: 'Bad request' })
     }
-
-    res.status(200).json({ message: 'Example' })
 }
 
 const getProducts = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -35,4 +33,3 @@ const getProducts = async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.status(200).json(products)
 }
-
