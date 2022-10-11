@@ -879,6 +879,13 @@
   "resolved" "https://registry.npmjs.org/clsx/-/clsx-1.2.1.tgz"
   "version" "1.2.1"
 
+"collections@^5.1.13":
+  "integrity" "sha512-SCb6Qd+d3Z02corWQ7/mqXiXeeTdHvkP6TeFSYfGYdCFp1WrjSNZ3j6y8Y3T/7osGEe0iOcU2g1d346l99m4Lg=="
+  "resolved" "https://registry.npmjs.org/collections/-/collections-5.1.13.tgz"
+  "version" "5.1.13"
+  dependencies:
+    "weak-map" "~1.0.x"
+
 "color-convert@^1.9.0":
   "integrity" "sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg=="
   "resolved" "https://registry.npmjs.org/color-convert/-/color-convert-1.9.3.tgz"
@@ -1836,7 +1843,21 @@
     "@types/whatwg-url" "^8.2.1"
     "whatwg-url" "^11.0.0"
 
+"mongodb@^4.10.0":
+  "integrity" "sha512-My2QxLTw0Cc1O9gih0mz4mqo145Jq4rLAQx0Glk/Ha9iYBzYpt4I2QFNRIh35uNFNfe8KFQcdwY1/HKxXBkinw=="
+  "resolved" "https://registry.npmjs.org/mongodb/-/mongodb-4.10.0.tgz"
+  "version" "4.10.0"
+  dependencies:
+    "bson" "^4.7.0"
+    "denque" "^2.1.0"
+    "mongodb-connection-string-url" "^2.5.3"
+    "socks" "^2.7.0"
+  optionalDependencies:
+    "saslprep" "^1.0.3"
+
 "mongodb@4.9.1":
+  "integrity" "sha512-ZhgI/qBf84fD7sI4waZBoLBNJYPQN5IOC++SBCiPiyhzpNKOxN/fi0tBHvH2dEC42HXtNEbFB0zmNz4+oVtorQ=="
+  "resolved" "https://registry.npmjs.org/mongodb/-/mongodb-4.9.1.tgz"
   "version" "4.9.1"
   dependencies:
     "bson" "^4.7.0"
@@ -2295,7 +2316,9 @@
 "smart-buffer@^4.2.0":
   "version" "4.2.0"
 
-"socks@^2.7.0":
+"socks@^2.7.0", "socks@^2.7.1":
+  "integrity" "sha512-7maUZy1N7uo6+WVEX6psASxtNlKaNVMlGQKkG/63nEDdLOWNbiUMoLK7X4uYoLhQstau72mLgfEWcXcwsaHbYQ=="
+  "resolved" "https://registry.npmjs.org/socks/-/socks-2.7.1.tgz"
   "version" "2.7.1"
   dependencies:
     "ip" "^2.0.0"
@@ -2489,6 +2512,11 @@
   "integrity" "sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA=="
   "resolved" "https://registry.npmjs.org/use-sync-external-store/-/use-sync-external-store-1.2.0.tgz"
   "version" "1.2.0"
+
+"weak-map@~1.0.x":
+  "integrity" "sha512-lNR9aAefbGPpHO7AEnY0hCFjz1eTkWCXYvkTRrTHs9qv8zJp+SkVYpzfLIFXQQiG3tVvbNFQgVg2bQS8YGgxyw=="
+  "resolved" "https://registry.npmjs.org/weak-map/-/weak-map-1.0.8.tgz"
+  "version" "1.0.8"
 
 "webidl-conversions@^7.0.0":
   "version" "7.0.0"
