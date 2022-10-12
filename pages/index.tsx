@@ -12,7 +12,7 @@ const HomePage: NextPage = () => {
 
   return (
     <ShopLayout title={'Home | CW Shop'} pageDescription={'Find the best products from CW Shop'}>
-      <Typography variant="h1" component="h1">Tienda</Typography>
+      <Typography variant="h1" component="h1">Store</Typography>
       <Typography variant="h6" sx={{ mb: 1 }}>All Products</Typography>
 
       {isLoading ? <FullScreenLoading /> : <ProductList products={ products } />}
