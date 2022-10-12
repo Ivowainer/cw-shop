@@ -7,24 +7,22 @@ import { ProductList } from '../components/products';
 import { initialData } from '../database/products';
 
 import { IProducts } from '../interfaces';
-import useSWR from 'swr'
+import { useProducts } from '../hooks';
 
-const fetcher = (...args: [key: string]) => fetch(...args).then(res => res.json())
+
 
 const HomePage: NextPage = () => {
-  const { data, error } = useSWR("/api/products", fetcher)
+  
 
-  if (error) return <div>failed to load</div>
-  if (!data) return <div>loading...</div>
-
-  console.log(data)
+  const { products, isLoading } = useProducts('/products')
 
   return (
     <ShopLayout title={'Home | CW Shop'} pageDescription={'Find the best products from CW Shop'}>
       <Typography variant="h1" component="h1">Tienda</Typography>
       <Typography variant="h6" sx={{ mb: 1 }}>All Products</Typography>
 
-      <ProductList products={ data } />
+      {isLoading ? <h1>Cargando...</h1> : <ProductList products={ products } />}
+      
     </ShopLayout>
   )
 }
