@@ -9,7 +9,7 @@ import { ProductSizeSelector, ProductSlideShow } from '../../components/products
 import { ItemCounter } from "../../components/ui";
 
 import { IProducts } from '../../interfaces/products';
-import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import { GetServerSideProps, GetServerSidePropsContext, GetStaticProps, GetStaticPropsContext } from "next";
 import { dbProducts } from "../../database";
 
 interface ProductPagesProps{
@@ -53,12 +53,21 @@ const ProductPage = ({ product }: ProductPagesProps) => {
   )
 }
 
-export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-  const { slug } = ctx.params as { slug: string };
+export const getStaticPaths = async() => {
+  const data = await dbProducts.getAllProductSlugs()
+
+  return {
+    paths: data.map(slug => ({ params: slug })),
+    fallback: false
+  }
+}
+
+export const getStaticProps: GetStaticProps = async(ctx: GetStaticPropsContext) => {
+  const { slug = '' } = ctx.params as { slug: string }
 
   const product = await dbProducts.getProductBySlug(slug)
 
-  if( !product ) {
+  if(!product) {
     return {
       redirect: {
         destination: '/',
@@ -71,7 +80,8 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     props: {
       product
     },
-  };
+    revalidate: 60 * 60 * 24
+  }
 }
 
 export default ProductPage
