@@ -1,12 +1,22 @@
+import { useRouter } from "next/router";
+
+import { useProducts } from "../../hooks";
+
 import { Box, Button, Chip, Grid, Typography } from "@mui/material"
+
 import { ShopLayout } from "../../components/layouts"
-import { initialData } from "../../database/products"
 import { ProductSizeSelector, ProductSlideShow } from '../../components/products';
 import { ItemCounter } from "../../components/ui";
 
-const product = initialData.products[0]
+import { IProducts } from '../../interfaces/products';
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import { dbProducts } from "../../database";
 
-const ProductPage = ({  }) => {
+interface ProductPagesProps{
+  product: IProducts
+}
+
+const ProductPage = ({ product }: ProductPagesProps) => {
   return (
     <ShopLayout pageDescription={product.description} title={`${product.title} | CW Shop`}>
       <Grid container spacing={3}>
@@ -41,6 +51,27 @@ const ProductPage = ({  }) => {
       </Grid>
     </ShopLayout>
   )
+}
+
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+  const { slug } = ctx.params as { slug: string };
+
+  const product = await dbProducts.getProductBySlug(slug)
+
+  if( !product ) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false
+      }
+    }
+  }
+
+  return {
+    props: {
+      product
+    },
+  };
 }
 
 export default ProductPage
