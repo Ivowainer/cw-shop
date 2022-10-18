@@ -1,6 +1,6 @@
 import type { NextPage, GetServerSideProps } from 'next'
 
-import { Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 
 import { ShopLayout } from '../../components/layouts'
 
@@ -11,19 +11,31 @@ import { ProductList } from '../../components/products';
 
 interface SearchPageProps{
     products: IProducts[];
+    foundProducts: boolean;
+    query: string;
 }
 
-const SearchPage = ({ products }: SearchPageProps) => {
+const SearchPage = ({ products, foundProducts, query }: SearchPageProps) => {
 
-  return (
-    <ShopLayout title={'Search | CW Shop'} pageDescription={'Find the best products from CW Shop'}>
-      <Typography variant="h1" component="h1">Search a product</Typography>
-      <Typography variant="h6" sx={{ mb: 1 }}>ABC --- 123</Typography>
 
-      <ProductList products={ products } />
-      
-    </ShopLayout>
-  )
+    return (
+        <ShopLayout title={'Search | CW Shop'} pageDescription={'Find the best products from CW Shop'}>
+            <Typography variant="h1" component="h1">Search products</Typography>
+
+            {foundProducts 
+                ? <Typography variant="h2" sx={{ mb: 1 }} color="secondary" textTransform="uppercase">{ query }</Typography>
+                : (
+                    <Box display='flex'>
+                        <Typography variant="h6" sx={{ mb: 1 }}>There is no product or brand with that name:</Typography>
+                        <Typography variant="h6" sx={{ ml: 1 }} color="secondary">{query}</Typography>
+                    </Box>
+                )}
+
+        
+
+            <ProductList products={ products } />
+        </ShopLayout>
+    )
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
@@ -39,12 +51,17 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     }
 
     let products = await dbProducts.getProductsByTerm(query)
+    const foundProducts = products.length > 0
 
-    //TODO: RETORNAR OTROS PRODUCTOS
+    if(!foundProducts){
+        products = await dbProducts.getAllProducts()
+    }
 
     return {
         props: {
-            products
+            products,
+            foundProducts,
+            query,
         }
     }
 }

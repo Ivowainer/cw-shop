@@ -13,7 +13,6 @@ export const SideMenu = () => {
     const { isMenuOpen, toggleSideMenu } = useContext(UiContext)
 
     const [searchTerm, setSearchTerm] = useState('')
-
     
     const navigateTo = (url: string) => {
         toggleSideMenu();
@@ -44,6 +43,7 @@ export const SideMenu = () => {
                             onKeyPress={ e => e.key === 'Enter' ? onSearchTerm() : null }
                             type='text'
                             placeholder="Search..."
+                            autoFocus
                             endAdornment={
                                 <InputAdornment position="end">
                                     <IconButton
