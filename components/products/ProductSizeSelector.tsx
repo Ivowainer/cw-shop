@@ -3,11 +3,16 @@ import { ISize } from "../../interfaces";
 import { Box, Button } from "@mui/material";
 
 interface ProductSizeSelector {
-    selectedSize: ISize;
+    selectedSize?: ISize;
     sizes: ISize[];
+    /* setSelectedSize: () => void; */
+    /* onSelectedSize: () => void; */
+
+    // Method
+    onSelectedSize: (size: ISize) => void;
 }
 
-export const ProductSizeSelector = ({ selectedSize, sizes }: ProductSizeSelector) => {
+export const ProductSizeSelector = ({ sizes, selectedSize, onSelectedSize }: ProductSizeSelector) => {
   return (
     <Box>
         {sizes.map(size => (
@@ -15,6 +20,7 @@ export const ProductSizeSelector = ({ selectedSize, sizes }: ProductSizeSelector
                 key={ size }
                 size='small'
                 color={ selectedSize === size ? 'primary' : 'info' }
+                onClick={() => onSelectedSize(size)}
             >
                 { size }
             </Button>
