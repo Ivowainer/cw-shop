@@ -13,9 +13,15 @@ const CART_INITAL_STATE: CartState = {
 export const CartProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     const [state, dispatch] = useReducer(cartReducer, CART_INITAL_STATE)
 
+    const addProductTocart = ( product: ICartProduct ) => {
+
+    }
+
     return (
         <CartContext.Provider value={{ 
-            ...state
+            ...state,
+
+            addProductTocart
          }}>
             { children }
         </CartContext.Provider>

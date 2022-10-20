@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useRouter } from "next/router";
 
@@ -19,6 +19,8 @@ interface ProductPagesProps{
 }
 
 const ProductPage = ({ product }: ProductPagesProps) => {
+  const router = useRouter()
+
   const [tempCartProduct, setTempCartProduct] = useState<ICartProduct>({
     _id: product._id,
     image: product.images[0],
@@ -35,6 +37,27 @@ const ProductPage = ({ product }: ProductPagesProps) => {
       ...currentProduct,
       size: size
     }))
+  }
+
+  const onUpdateQuantity = (quantity: number) => {
+
+    setTempCartProduct(currentProduct => ({
+      ...currentProduct,
+      quantity
+    }))
+  }
+
+  const onAddProduct = async () => {
+
+    // Validation
+    if ( !tempCartProduct.size ) { return };
+    if ( tempCartProduct.quantity <= 0 ) { return };
+    if ( tempCartProduct.quantity > product.inStock ) { return };
+
+
+    // Dispatch to add cart
+    console.log(tempCartProduct)
+    await router.push('/cart')
   }
 
 
@@ -55,10 +78,13 @@ const ProductPage = ({ product }: ProductPagesProps) => {
             {/* Cantidad */}
             <Box sx={{ my: 2 }}>
               <Typography variant="subtitle2">Amount</Typography>
-              <ItemCounter />
+              <ItemCounter 
+                currentValue={tempCartProduct.quantity}
+                updateQuantity={onUpdateQuantity} 
+                maxValue={product.inStock}
+              />
               <ProductSizeSelector 
-                selectedSize={tempCartProduct.size} 
-                /* setSelectedSize={setSelectedSize} */
+                selectedSize={tempCartProduct.size}
                 onSelectedSize={onSelectedSize}
                 sizes={product.sizes}
               />
@@ -67,9 +93,21 @@ const ProductPage = ({ product }: ProductPagesProps) => {
 
             {/* Add to cart */}
             {product.inStock > 0 ? (
-              <Button color="secondary" className="circular-btn">
-                {tempCartProduct.size ? 'Add to cart': 'Select a size'}
-              </Button>
+              <>
+                {tempCartProduct.size ? (
+                  <Button 
+                    color='secondary' 
+                    className="circular-btn"
+                    onClick={() => onAddProduct()}
+                  >Add to cart</Button>
+                ) : (
+                  <Chip 
+                    label="Select a size"
+                    variant="outlined"
+                    color="primary"
+                  />
+                )}
+              </>
             ) : (
               <Chip label="No stock" color="error" variant="outlined" />
             )}
