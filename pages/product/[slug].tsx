@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from 'react';
 
 import { useRouter } from "next/router";
 
 import { useProducts } from "../../hooks";
+
+import { CartContext } from '../../context/cart/CartContext';
 
 import { Box, Button, Chip, Grid, Typography } from "@mui/material"
 
@@ -20,6 +22,8 @@ interface ProductPagesProps{
 
 const ProductPage = ({ product }: ProductPagesProps) => {
   const router = useRouter()
+
+  const { addProductTocart } = useContext(CartContext)
 
   const [tempCartProduct, setTempCartProduct] = useState<ICartProduct>({
     _id: product._id,
@@ -56,8 +60,8 @@ const ProductPage = ({ product }: ProductPagesProps) => {
 
 
     // Dispatch to add cart
-    console.log(tempCartProduct)
-    await router.push('/cart')
+    addProductTocart(tempCartProduct)
+    /* await router.push('/cart') */
   }
 
 
