@@ -6,10 +6,18 @@ import { ICartProduct } from '../../interfaces';
 
 export interface CartState {
     cart: ICartProduct[];
+    numberOfItems: number;
+    subTotal: number;
+    tax: number;
+    total: number;
 }
 
 const CART_INITAL_STATE: CartState = {
-    cart: Cookie.get('cart') ? JSON.parse(Cookie.get('cart')!) : []
+    cart: Cookie.get('cart') ? JSON.parse(Cookie.get('cart')!) : [],
+    numberOfItems: 0,
+    subTotal: 0,
+    tax: 0,
+    total: 0,
 }
 
 export const CartProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
@@ -43,7 +51,7 @@ export const CartProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
             total: subTotal * (taxRate + 1)
         }
 
-        console.log(orderSummary)
+        dispatch({ type: 'Cart - Update order summary', payload: orderSummary })
     }, [state.cart]);
 
     const addProductTocart = ( product: ICartProduct ) => {
