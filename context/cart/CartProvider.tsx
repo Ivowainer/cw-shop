@@ -55,7 +55,7 @@ export const CartProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
     }
 
     const removeCartProduct = ( product: ICartProduct ) => {
-        dispatch({ type: 'Cart - Change cart quantity', payload: product })
+        dispatch({ type: 'Cart - Remove product in cart', payload: product })
     }
 
     return (
