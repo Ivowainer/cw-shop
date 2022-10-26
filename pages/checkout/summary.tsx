@@ -1,7 +1,7 @@
 import NextLink from 'next/link';
 
 import { Box, Button, Card, CardContent, Divider, Grid, Link, Typography } from "@mui/material"
-import { CardList, OrderSummary } from "../../components/cart"
+import { CartList, OrderSummary } from "../../components/cart"
 import { ShopLayout } from "../../components/layouts"
 
 const SummaryPage = () => {
@@ -11,7 +11,7 @@ const SummaryPage = () => {
 
         <Grid container sx={{ mt: 2 }}>
             <Grid item xs={12} sm={7}>
-                <CardList/>
+                <CartList/>
             </Grid>
             <Grid item xs={12} sm={5}>
                 <Card className="summary-card">
