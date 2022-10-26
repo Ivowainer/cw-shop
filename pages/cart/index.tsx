@@ -9,7 +9,7 @@ const CartPage = () => {
 
         <Grid container sx={{ mt: 2 }}>
             <Grid item xs={12} sm={7}>
-                <CardList editable/>
+                <CardList editable />
             </Grid>
             <Grid item xs={12} sm={5}>
                 <Card className="summary-card">
