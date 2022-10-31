@@ -4,15 +4,8 @@ import NextLink from 'next/link';
 import { CartContext } from '../../context/cart';
 
 import { Box, Button, CardActionArea, CardMedia, Grid, Link, Typography } from "@mui/material"
-import { initialData } from "../../database/products"
 import { ItemCounter } from '../ui';
 import { ICartProduct } from '../../interfaces';
-
-const productsInCartProvisory = [
-    initialData.products[0],
-    initialData.products[1],
-    initialData.products[2],
-]
 
 interface CartListProps {
     editable?: boolean;
