@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { db } from '../../../database'
 import { User } from '../../../models'
 import bcrypt from 'bcryptjs';
+import { jwt } from '../../../utils';
 
 type Data = 
 | { message: string } 
@@ -35,7 +36,12 @@ const loginUser = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
     if( !bcrypt.compareSync(password, user.password!) ) return res.status(400).json({ message: 'Invalid email or password - PASSWORD ' })
 
-    const { role, name } = user;
+    const { role, name, _id } = user;
 
-    return res.status(200).json({ token: '', user: { email, role, name } })
+    const token = jwt.signToken( _id, email )
+
+    return res.status(200).json({ 
+        token, 
+        user: { email, role, name }
+    })
 }
