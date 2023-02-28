@@ -1,8 +1,10 @@
+import { useState } from "react";
+
 import NextLink from "next/link";
 
 import { useForm } from "react-hook-form";
 
-import { Box, Button, Grid, Link, TextField, Typography } from "@mui/material";
+import { Box, Button, Chip, Grid, Link, TextField, Typography } from "@mui/material";
 import { AuthLayout } from "../../components/layouts";
 
 import { validations } from "../../utils";
@@ -19,15 +21,21 @@ type FormData = {
 const LoginPage = () => {
     //prettier-ignore
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
+    const [showError, setShowError] = useState(false);
 
     const onLoginUser = async (data: FormData) => {
+        setShowError(false);
+
         const { email, password } = data;
 
         try {
             const { data } = await clientMainApi.post<IUserLoginRes>("/user/login", { email, password });
-            console.log("s");
         } catch (error: any) {
-            console.log(error.response.data.message);
+            setShowError(true);
+
+            setTimeout(() => {
+                setShowError(false);
+            }, 3000);
         }
     };
 
@@ -40,6 +48,7 @@ const LoginPage = () => {
                             <Typography variant="h1" component="h1">
                                 Login in
                             </Typography>
+                            <Chip label="Invalid email or password" color="error" className="fadeIn" sx={{ padding: "10px 0px", display: showError ? "flex" : "none" }} />
                         </Grid>
 
                         <Grid item xs={12}>
