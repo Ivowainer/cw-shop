@@ -5,6 +5,8 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { Box, Button, Grid, Link, TextField, Typography } from "@mui/material";
 import { AuthLayout } from "../../components/layouts";
 
+import { validations } from "../../utils";
+
 type FormData = {
     email: string;
     password: string;
@@ -20,7 +22,7 @@ const LoginPage = () => {
 
     return (
         <AuthLayout title={"Login | CW Shop"}>
-            <form onSubmit={handleSubmit(onLoginUser)}>
+            <form onSubmit={handleSubmit(onLoginUser)} noValidate>
                 <Box sx={{ width: 350, padding: "10px 20px" }}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
@@ -30,10 +32,32 @@ const LoginPage = () => {
                         </Grid>
 
                         <Grid item xs={12}>
-                            <TextField type="email" label="Email" variant="filled" fullWidth {...register("email")} />
+                            <TextField
+                                type="email"
+                                label="Email"
+                                variant="filled"
+                                fullWidth
+                                {...register("email", {
+                                    required: "This field is required",
+                                    validate: validations.isEmail,
+                                })}
+                                error={!!errors.email}
+                                helperText={errors.email?.message}
+                            />
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField label="Password" type="password" variant="filled" fullWidth {...register("password")} />
+                            <TextField
+                                label="Password"
+                                type="password"
+                                variant="filled"
+                                fullWidth
+                                {...register("password", {
+                                    required: "This field is required",
+                                    minLength: { value: 6, message: "The password must be at least 6 characters" },
+                                })}
+                                error={!!errors.password}
+                                helperText={errors.password?.message}
+                            />
                         </Grid>
                         <Grid item xs={12}>
                             <Button type="submit" color="secondary" className="circular-btn" size="large" fullWidth>
