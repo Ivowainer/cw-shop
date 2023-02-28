@@ -22,15 +22,20 @@ const LoginPage = () => {
     //prettier-ignore
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
     const [showError, setShowError] = useState(false);
+    const [executeLoginBtn, setExecuteLoginBtn] = useState(false);
 
     const onLoginUser = async (data: FormData) => {
+        setExecuteLoginBtn(true);
         setShowError(false);
 
         const { email, password } = data;
 
         try {
             const { data } = await clientMainApi.post<IUserLoginRes>("/user/login", { email, password });
+
+            setExecuteLoginBtn(false);
         } catch (error: any) {
+            setExecuteLoginBtn(false);
             setShowError(true);
 
             setTimeout(() => {
@@ -48,7 +53,9 @@ const LoginPage = () => {
                             <Typography variant="h1" component="h1">
                                 Login in
                             </Typography>
-                            <Chip label="Invalid email or password" color="error" className="fadeIn" sx={{ padding: "10px 0px", display: showError ? "flex" : "none" }} />
+                            <Box sx={{ marginTop: "10px" }}>
+                                <Chip label="Invalid email or password" color="error" className="fadeIn" sx={{ padding: "10px 0px", display: showError ? "flex" : "none" }} />
+                            </Box>
                         </Grid>
 
                         <Grid item xs={12}>
@@ -80,7 +87,7 @@ const LoginPage = () => {
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <Button type="submit" color="secondary" className="circular-btn" size="large" fullWidth>
+                            <Button disabled={executeLoginBtn} type="submit" color="secondary" className="circular-btn" size="large" fullWidth>
                                 Login
                             </Button>
                         </Grid>
