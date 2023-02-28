@@ -1,5 +1,6 @@
 import { useReducer } from "react";
 
+import axios from "axios";
 import Cookies from "js-cookie";
 
 import { AuthContext, authReducer } from "./";
@@ -37,6 +38,34 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
         }
     };
 
+    const registerUser = async (name: string, email: string, password: string): Promise<{ hasError: boolean; message?: string }> => {
+        try {
+            const { data } = await clientMainApi.post("/user/register", { name, email, password });
+
+            const { token, user } = data;
+
+            Cookies.set("token", token);
+
+            dispatch({ type: "Auth - Login", payload: user });
+
+            return {
+                hasError: false,
+            };
+        } catch (error: any) {
+            if (axios.isAxiosError(error)) {
+                return {
+                    hasError: true,
+                    message: error.response?.data.message,
+                };
+            }
+
+            return {
+                hasError: true,
+                message: "Mail already registered",
+            };
+        }
+    };
+
     return (
         <AuthContext.Provider
             value={{
@@ -44,6 +73,7 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
 
                 // Methods
                 loginUser,
+                registerUser,
             }}
         >
             {children}

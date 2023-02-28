@@ -1,6 +1,9 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 
 import NextLink from "next/link";
+import { useRouter } from "next/router";
+
+import { AuthContext } from "../../context";
 
 import { clientMainApi } from "../../api";
 import { useForm } from "react-hook-form";
@@ -18,29 +21,32 @@ type FormData = {
 };
 
 const RegisterPage = () => {
+    const router = useRouter();
+    const { registerUser } = useContext(AuthContext);
+
     //prettier-ignore
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
+
     const [executeLoginBtn, setExecuteLoginBtn] = useState(false);
     const [showError, setShowError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
     const onRegisterForm = async ({ name, email, password }: FormData) => {
         setExecuteLoginBtn(true);
         setShowError(false);
 
-        try {
-            const { data } = await clientMainApi.post<IUserLoginRes>("/user/register", { name, email, password });
+        const { hasError, message } = await registerUser(name, email, password);
 
-            console.log(data);
-
-            setExecuteLoginBtn(false);
-        } catch (error: any) {
+        if (hasError) {
             setExecuteLoginBtn(false);
             setShowError(true);
+            setErrorMessage(message!);
 
-            setTimeout(() => {
-                setShowError(false);
-            }, 3000);
+            setTimeout(() => setShowError(false), 3000);
+            return;
         }
+
+        router.replace("/");
     };
 
     return (
