@@ -1,17 +1,16 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 
+import { useRouter } from "next/router";
 import NextLink from "next/link";
 
 import { useForm } from "react-hook-form";
+
+import { AuthContext } from "../../context";
 
 import { Box, Button, Chip, Grid, Link, TextField, Typography } from "@mui/material";
 import { AuthLayout } from "../../components/layouts";
 
 import { validations } from "../../utils";
-
-import { clientMainApi } from "../../api";
-
-import { IUserLoginRes } from "../../interfaces";
 
 type FormData = {
     email: string;
@@ -19,28 +18,27 @@ type FormData = {
 };
 
 const LoginPage = () => {
+    const router = useRouter();
+
+    const { loginUser } = useContext(AuthContext);
+
     //prettier-ignore
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
+
     const [showError, setShowError] = useState(false);
     const [executeLoginBtn, setExecuteLoginBtn] = useState(false);
 
-    const onLoginUser = async (data: FormData) => {
+    const onLoginUser = async ({ email, password }: FormData) => {
         setExecuteLoginBtn(true);
         setShowError(false);
 
-        const { email, password } = data;
+        const isValidLogin = await loginUser(email, password);
 
-        try {
-            const { data } = await clientMainApi.post<IUserLoginRes>("/user/login", { email, password });
-
-            setExecuteLoginBtn(false);
-        } catch (error: any) {
+        if (!isValidLogin) {
             setExecuteLoginBtn(false);
             setShowError(true);
 
-            setTimeout(() => {
-                setShowError(false);
-            }, 3000);
+            setTimeout(() => setShowError(false), 3000);
         }
     };
 
