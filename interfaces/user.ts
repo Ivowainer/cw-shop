@@ -12,7 +12,6 @@ export interface IUser {
 export interface IUserLoginRes {
     token: string;
     user: {
-        _id?: string;
         email: string;
         role: string;
         name: string;

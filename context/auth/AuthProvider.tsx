@@ -10,7 +10,7 @@ import { IUser, IUserLoginRes } from "../../interfaces";
 
 export interface AuthState {
     isLoggedIn: boolean;
-    user?: IUser;
+    user?: IUserLoginRes;
 }
 
 const AUTH_INITAL_STATE: AuthState = {
@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
 
     const loginUser = async (email: string, password: string): Promise<boolean> => {
         try {
-            const { data } = await clientMainApi.post<IUserLoginRes>("/user/login", { email, password });
+            const { data } = await clientMainApi.post("/user/login", { email, password });
 
             const { token, user } = data;
 

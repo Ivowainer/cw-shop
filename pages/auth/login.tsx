@@ -39,7 +39,10 @@ const LoginPage = () => {
             setShowError(true);
 
             setTimeout(() => setShowError(false), 3000);
+            return;
         }
+
+        router.replace("/");
     };
 
     return (
