@@ -1,11 +1,15 @@
 import NextLink from "next/link";
 
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 import { Box, Button, Grid, Link, TextField, Typography } from "@mui/material";
 import { AuthLayout } from "../../components/layouts";
 
 import { validations } from "../../utils";
+
+import { clientMainApi } from "../../api";
+
+import { IUserLoginRes } from "../../interfaces";
 
 type FormData = {
     email: string;
@@ -16,8 +20,15 @@ const LoginPage = () => {
     //prettier-ignore
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
 
-    const onLoginUser = (data: FormData) => {
-        console.log(data);
+    const onLoginUser = async (data: FormData) => {
+        const { email, password } = data;
+
+        try {
+            const { data } = await clientMainApi.post<IUserLoginRes>("/user/login", { email, password });
+            console.log("s");
+        } catch (error: any) {
+            console.log(error.response.data.message);
+        }
     };
 
     return (

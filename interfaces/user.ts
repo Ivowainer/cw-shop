@@ -8,3 +8,12 @@ export interface IUser {
     createdAt?: string;
     updatedAt?: string;
 }
+
+export interface IUserLoginRes {
+    token: string;
+    user: {
+        email: string;
+        role: string;
+        name: string;
+    };
+}
