@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { useRouter } from "next/router";
 import NextLink from "next/link";
@@ -20,7 +20,7 @@ type FormData = {
 const LoginPage = () => {
     const router = useRouter();
 
-    const { loginUser } = useContext(AuthContext);
+    const { loginUser, isLoggedIn } = useContext(AuthContext);
 
     //prettier-ignore
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
@@ -29,6 +29,13 @@ const LoginPage = () => {
     const [executeLoginBtn, setExecuteLoginBtn] = useState(false);
 
     const destination = router.query.p?.toString() || "/";
+    useEffect(() => {
+        if (!isLoggedIn) {
+            return;
+        }
+
+        router.replace(destination);
+    }, [isLoggedIn, router]);
 
     const onLoginUser = async ({ email, password }: FormData) => {
         setExecuteLoginBtn(true);
