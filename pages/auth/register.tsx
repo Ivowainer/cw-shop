@@ -31,6 +31,8 @@ const RegisterPage = () => {
     const [showError, setShowError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
+    const destination = router.query.p?.toString() || "/";
+
     const onRegisterForm = async ({ name, email, password }: FormData) => {
         setExecuteLoginBtn(true);
         setShowError(false);
@@ -46,7 +48,7 @@ const RegisterPage = () => {
             return;
         }
 
-        router.replace("/");
+        router.replace(destination);
     };
 
     return (
@@ -108,7 +110,7 @@ const RegisterPage = () => {
                             </Button>
                         </Grid>
                         <Grid item xs={12} display="flex" justifyContent="end">
-                            <NextLink href="/auth/login" passHref>
+                            <NextLink href={router.query.p ? `/auth/login?p=${destination}` : `/auth/login`} passHref>
                                 <Link underline="always">
                                     <Typography>{`You already have account?`}</Typography>
                                 </Link>
