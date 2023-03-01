@@ -30,6 +30,8 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
         try {
             const { data } = await clientMainApi.post("/user/validate-token");
 
+            console.log(data);
+
             dispatch({ type: "Auth - Login", payload: data });
         } catch (error) {
             Cookies.remove("token");
