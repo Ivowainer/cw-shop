@@ -11,9 +11,11 @@ export interface IUser {
 
 export interface IUserLoginRes {
     token: string;
-    user: {
-        email: string;
-        role: string;
-        name: string;
-    };
+    user: IUserLogged;
+}
+
+export interface IUserLogged {
+    email: string;
+    role: string;
+    name: string;
 }

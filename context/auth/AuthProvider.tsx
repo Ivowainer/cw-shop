@@ -7,11 +7,11 @@ import { AuthContext, authReducer } from "./";
 
 import { clientMainApi } from "../../api";
 
-import { IUser, IUserLoginRes } from "../../interfaces";
+import { IUser, IUserLogged, IUserLoginRes } from "../../interfaces";
 
 export interface AuthState {
     isLoggedIn: boolean;
-    user?: IUserLoginRes;
+    user?: IUserLogged;
 }
 
 const AUTH_INITAL_STATE: AuthState = {
@@ -27,10 +27,12 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
     }, []);
 
     const checkToken = async () => {
+        if (!Cookies.get("token")) {
+            return;
+        }
+
         try {
             const { data } = await clientMainApi.post("/user/validate-token");
-
-            console.log(data);
 
             dispatch({ type: "Auth - Login", payload: data });
         } catch (error) {

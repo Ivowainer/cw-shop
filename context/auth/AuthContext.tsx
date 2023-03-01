@@ -1,10 +1,10 @@
 import { createContext } from "react";
 
-import { IUser, IUserLoginRes } from "../../interfaces";
+import { IUser, IUserLogged, IUserLoginRes } from "../../interfaces";
 
 interface ContextProps {
     isLoggedIn: boolean;
-    user?: IUserLoginRes;
+    user?: IUserLogged;
 
     //prettier-ignore
     registerUser: (name: string, email: string, password: string) => Promise<{ hasError: boolean; message?: string; }>
