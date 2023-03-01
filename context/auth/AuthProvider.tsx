@@ -1,4 +1,5 @@
 import { useEffect, useReducer } from "react";
+import { useRouter } from "next/router";
 
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -21,6 +22,8 @@ const AUTH_INITAL_STATE: AuthState = {
 
 export const AuthProvider = ({ children }: React.PropsWithChildren) => {
     const [state, dispatch] = useReducer(authReducer, AUTH_INITAL_STATE);
+
+    const router = useRouter();
 
     useEffect(() => {
         checkToken();
@@ -84,6 +87,14 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
         }
     };
 
+    const logout = () => {
+        Cookies.remove("token");
+        Cookies.remove("cart");
+
+        router.reload();
+        dispatch({ type: "Auth - Logout" });
+    };
+
     return (
         <AuthContext.Provider
             value={{
@@ -92,6 +103,7 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
                 // Methods
                 loginUser,
                 registerUser,
+                logout,
             }}
         >
             {children}
