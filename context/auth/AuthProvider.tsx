@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useEffect, useReducer } from "react";
 
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -21,6 +21,20 @@ const AUTH_INITAL_STATE: AuthState = {
 
 export const AuthProvider = ({ children }: React.PropsWithChildren) => {
     const [state, dispatch] = useReducer(authReducer, AUTH_INITAL_STATE);
+
+    useEffect(() => {
+        checkToken();
+    }, []);
+
+    const checkToken = async () => {
+        try {
+            const { data } = await clientMainApi.post("/user/validate-token");
+
+            dispatch({ type: "Auth - Login", payload: data });
+        } catch (error) {
+            Cookies.remove("token");
+        }
+    };
 
     const loginUser = async (email: string, password: string): Promise<boolean> => {
         try {
