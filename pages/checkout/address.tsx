@@ -55,7 +55,7 @@ const AddressPage = () => {
     );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+/* export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     const { token = "" } = req.cookies;
     let isValidToken = false;
 
@@ -78,6 +78,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     return {
         props: {},
     };
-};
+}; */
 
 export default AddressPage;
