@@ -1,5 +1,6 @@
+import Cookies from "js-cookie";
 import { ICartProduct } from "../../interfaces";
-import { CartState } from "./";
+import { CartState, ShippingAddress } from "./";
 
 //prettier-ignore
 type CartActionType = 
@@ -15,6 +16,7 @@ type CartActionType =
             total: number; 
         }
    }
+| { type: 'Cart - LoadAddress from cookies | storage', payload: ShippingAddress }
 
 export const cartReducer = (state: CartState, action: CartActionType): CartState => {
     switch (action.type) {
@@ -51,6 +53,13 @@ export const cartReducer = (state: CartState, action: CartActionType): CartState
             return {
                 ...state,
                 ...action.payload,
+            };
+
+        case "Cart - LoadAddress from cookies | storage":
+            return {
+                ...state,
+                isLoaded: true,
+                shippingAddress: action.payload,
             };
         default:
             return state;
