@@ -1,3 +1,7 @@
+import { useState } from "react";
+
+import { useRouter } from "next/router";
+
 import { countries, validations } from "../../utils";
 
 import { useForm } from "react-hook-form";
@@ -18,23 +22,31 @@ type FormData = {
     phone: string;
 };
 
+const getAddressFromCookies = () => {
+    return {
+        firstName: Cookies.get("firstName") || "",
+        lastName: Cookies.get("lastName") || "",
+        address: Cookies.get("address") || "",
+        address2: Cookies.get("address2") || "",
+        zipCode: Cookies.get("zipCode") || "",
+        city: Cookies.get("city") || "",
+        country: Cookies.get("country") || "",
+        phone: Cookies.get("phone") || "",
+    };
+};
+
 const AddressPage = () => {
+    const router = useRouter();
+
+    const [executeLoginBtn, setExecuteLoginBtn] = useState(false);
+
     //prettier-ignore
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
-        defaultValues: {
-            firstName: '',
-            lastName: '',
-            address: '',
-            address2: '',
-            zipCode: '',
-            city: '',
-            country: countries[0].code,
-            phone: '',
-        }
+        defaultValues: getAddressFromCookies()
     });
 
     const onReviewOrder = (data: FormData) => {
-        console.log(data);
+        setExecuteLoginBtn(true);
 
         Cookies.set("firstName", data.firstName);
         Cookies.set("lastName", data.lastName);
@@ -44,6 +56,10 @@ const AddressPage = () => {
         Cookies.set("city", data.city);
         Cookies.set("country", data.country);
         Cookies.set("phone", data.phone);
+
+        router.push("/checkout/summary");
+
+        setExecuteLoginBtn(false);
     };
 
     return (
@@ -153,7 +169,7 @@ const AddressPage = () => {
                 </Grid>
 
                 <Box sx={{ mt: 5 }} display="flex" justifyContent="center">
-                    <Button type="submit" color="secondary" className="circular-btn" size="large">
+                    <Button disabled={executeLoginBtn} type="submit" color="secondary" className="circular-btn" size="large">
                         Review order
                     </Button>
                 </Box>

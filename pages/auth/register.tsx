@@ -112,8 +112,8 @@ const RegisterPage = () => {
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <Button type="submit" color="secondary" className="circular-btn" size="large" fullWidth>
-                                Login
+                            <Button disabled={executeLoginBtn} type="submit" color="secondary" className="circular-btn" size="large" fullWidth>
+                                Register
                             </Button>
                         </Grid>
                         <Grid item xs={12} display="flex" justifyContent="end">
