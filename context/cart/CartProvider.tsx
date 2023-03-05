@@ -111,6 +111,19 @@ export const CartProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
         dispatch({ type: "Cart - Remove product in cart", payload: product });
     };
 
+    const updateAddress = (address: ShippingAddress) => {
+        Cookie.set("firstName", address.firstName);
+        Cookie.set("lastName", address.lastName);
+        Cookie.set("address", address.address);
+        Cookie.set("address2", address.address2 || "");
+        Cookie.set("zipCode", address.zipCode);
+        Cookie.set("city", address.city);
+        Cookie.set("country", address.country);
+        Cookie.set("phone", address.phone);
+
+        dispatch({ type: "Cart - LoadAddress from cookies | storage", payload: address });
+    };
+
     return (
         <CartContext.Provider
             value={{
@@ -119,6 +132,7 @@ export const CartProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
                 removeCartProduct,
                 addProductTocart,
                 updateCartQuantity,
+                updateAddress,
             }}
         >
             {children}

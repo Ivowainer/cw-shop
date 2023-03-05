@@ -1,14 +1,16 @@
-import { useState } from "react";
-
+import { useContext, useState } from "react";
 import { useRouter } from "next/router";
 
-import { countries, validations } from "../../utils";
+import Cookies from "js-cookie";
+
+import { CartContext } from "../../context";
+
+import { countries } from "../../utils";
 
 import { useForm } from "react-hook-form";
 
 import { Box, Button, FormControl, Grid, MenuItem, Select, TextField, Typography } from "@mui/material";
 import { ShopLayout } from "../../components/layouts";
-import Cookies from "js-cookie";
 
 type FormData = {
     name: string;
@@ -38,6 +40,8 @@ const getAddressFromCookies = () => {
 const AddressPage = () => {
     const router = useRouter();
 
+    const { updateAddress } = useContext(CartContext);
+
     const [executeLoginBtn, setExecuteLoginBtn] = useState(false);
 
     //prettier-ignore
@@ -48,17 +52,9 @@ const AddressPage = () => {
     const onReviewOrder = (data: FormData) => {
         setExecuteLoginBtn(true);
 
-        Cookies.set("firstName", data.firstName);
-        Cookies.set("lastName", data.lastName);
-        Cookies.set("address", data.address);
-        Cookies.set("address2", data.address2 || "");
-        Cookies.set("zipCode", data.zipCode);
-        Cookies.set("city", data.city);
-        Cookies.set("country", data.country);
-        Cookies.set("phone", data.phone);
+        updateAddress(data);
 
         router.push("/checkout/summary");
-
         setExecuteLoginBtn(false);
     };
 
