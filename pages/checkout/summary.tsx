@@ -6,6 +6,7 @@ import { CartContext } from "../../context";
 import { Box, Button, Card, CardContent, Divider, Grid, Link, Typography } from "@mui/material";
 import { CartList, OrderSummary } from "../../components/cart";
 import { ShopLayout } from "../../components/layouts";
+import { countries } from "../../utils";
 
 const SummaryPage = () => {
     const { shippingAddress, numberOfItems } = useContext(CartContext);
@@ -48,7 +49,7 @@ const SummaryPage = () => {
                             <Typography>
                                 {shippingAddress?.city}, {shippingAddress?.zipCode}
                             </Typography>
-                            <Typography>{shippingAddress?.country}</Typography>
+                            <Typography>{countries.find(country => country.code == shippingAddress?.country)?.name}</Typography>
                             <Typography>{shippingAddress?.phone}</Typography>
 
                             <Divider sx={{ my: 1 }} />
