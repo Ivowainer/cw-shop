@@ -2,6 +2,8 @@ import { useEffect, useReducer } from "react";
 import { useRouter } from "next/router";
 
 import axios from "axios";
+import { useSession } from "next-auth/react";
+
 import Cookies from "js-cookie";
 
 import { AuthContext, authReducer } from "./";
@@ -22,10 +24,21 @@ const AUTH_INITAL_STATE: AuthState = {
 
 export const AuthProvider = ({ children }: React.PropsWithChildren) => {
     const [state, dispatch] = useReducer(authReducer, AUTH_INITAL_STATE);
-
+    
+    const { data, status } = useSession();
     const router = useRouter();
 
     useEffect(() => {
+        if(status === 'authenticated'){
+            console.log({ user: data?.user })
+
+            //TODO: dispatch({ type: 'Auth - Login', payload: data?.user as IUserLoginRes })
+        }
+    }, [status, data])
+
+
+    // JWT CheckToken without NextAuth
+    /* useEffect(() => {
         checkToken();
     }, []);
 
@@ -41,7 +54,7 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
         } catch (error) {
             Cookies.remove("token");
         }
-    };
+    }; */
 
     const loginUser = async (email: string, password: string): Promise<boolean> => {
         try {
@@ -90,6 +103,15 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
     const logout = () => {
         Cookies.remove("token");
         Cookies.remove("cart");
+
+        Cookies.remove("firstName");
+        Cookies.remove("lastName");
+        Cookies.remove("address");
+        Cookies.remove("address2");
+        Cookies.remove("zipCode");
+        Cookies.remove("city");
+        Cookies.remove("country");
+        Cookies.remove("phone");
 
         router.reload();
         dispatch({ type: "Auth - Logout" });

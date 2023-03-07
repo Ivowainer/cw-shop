@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 
+import { SessionProvider } from "next-auth/react"
+
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 
@@ -20,21 +22,23 @@ function MyApp({ Component, pageProps }: AppProps) {
     }
 
     return (
-        <SWRConfig
-            value={{
-                fetcher: (resource, init) => fetch(resource, init).then((res) => res.json()),
-            }}
-        >
-            <AuthProvider>
-                <CartProvider>
-                    <UiProvider>
-                        <ThemeProvider theme={lightTheme}>
-                            <Component {...pageProps} />
-                        </ThemeProvider>
-                    </UiProvider>
-                </CartProvider>
-            </AuthProvider>
-        </SWRConfig>
+        <SessionProvider>
+            <SWRConfig
+                value={{
+                    fetcher: (resource, init) => fetch(resource, init).then((res) => res.json()),
+                }}
+            >
+                <AuthProvider>
+                    <CartProvider>
+                        <UiProvider>
+                            <ThemeProvider theme={lightTheme}>
+                                <Component {...pageProps} />
+                            </ThemeProvider>
+                        </UiProvider>
+                    </CartProvider>
+                </AuthProvider>
+            </SWRConfig>
+        </SessionProvider>
     );
 }
 
