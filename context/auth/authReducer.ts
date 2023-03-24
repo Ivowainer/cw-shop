@@ -1,6 +1,7 @@
 import { AuthState } from "./AuthProvider";
 
 import { IUser, IUserLoginRes } from "../../interfaces";
+import { useEffect } from "react";
 
 //prettier-ignore
 type AuthActionType = 

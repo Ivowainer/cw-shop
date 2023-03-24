@@ -24,23 +24,22 @@ const AUTH_INITAL_STATE: AuthState = {
 
 export const AuthProvider = ({ children }: React.PropsWithChildren) => {
     const [state, dispatch] = useReducer(authReducer, AUTH_INITAL_STATE);
-    
+
     const { data, status } = useSession();
     const router = useRouter();
 
     useEffect(() => {
-        if(status === 'authenticated'){
-            console.log({ user: data?.user })
+        if (status === "authenticated") {
+            /* console.log(data?.user); */
 
-            //TODO: dispatch({ type: 'Auth - Login', payload: data?.user as IUserLoginRes })
+            dispatch({ type: "Auth - Login", payload: { user: data?.user } as IUserLoginRes });
         }
-    }, [status, data])
-
+    }, [status, data]);
 
     // JWT CheckToken without NextAuth
     /* useEffect(() => {
         checkToken();
-    }, []);
+    }, []); */
 
     const checkToken = async () => {
         if (!Cookies.get("token")) {
@@ -54,7 +53,7 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
         } catch (error) {
             Cookies.remove("token");
         }
-    }; */
+    };
 
     const loginUser = async (email: string, password: string): Promise<boolean> => {
         try {
