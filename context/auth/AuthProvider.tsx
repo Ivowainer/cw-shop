@@ -2,7 +2,7 @@ import { useEffect, useReducer } from "react";
 import { useRouter } from "next/router";
 
 import axios from "axios";
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 
 import Cookies from "js-cookie";
 
@@ -10,7 +10,7 @@ import { AuthContext, authReducer } from "./";
 
 import { clientMainApi } from "../../api";
 
-import { IUser, IUserLogged, IUserLoginRes } from "../../interfaces";
+import { IUserLogged, IUserLoginRes } from "../../interfaces";
 
 export interface AuthState {
     isLoggedIn: boolean;
@@ -100,7 +100,6 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
     };
 
     const logout = () => {
-        Cookies.remove("token");
         Cookies.remove("cart");
 
         Cookies.remove("firstName");
@@ -112,7 +111,9 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
         Cookies.remove("country");
         Cookies.remove("phone");
 
-        router.reload();
+        signOut();
+        /* Cookies.remove("token"); */
+        /* router.reload(); */
         dispatch({ type: "Auth - Logout" });
     };
 
