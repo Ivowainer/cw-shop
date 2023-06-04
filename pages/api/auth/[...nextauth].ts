@@ -16,7 +16,7 @@ export const authOptions = {
                 console.log({ credentials });
                 // TODO: Validate Password
 
-                return await dbUsers.checkUserEmailPasswors(credentials!.email, credentials!.password);
+                return await dbUsers.checkUserEmailPassword(credentials!.email, credentials!.password);
             },
         }),
 
@@ -37,6 +37,7 @@ export const authOptions = {
                 switch (account.type) {
                     //TODO: Verify user in DB
                     case "oauth":
+                        token.user = await dbUsers.OAuthToDbUser(user?.email || "", user?.name || "");
                         break;
 
                     case "credentials":
