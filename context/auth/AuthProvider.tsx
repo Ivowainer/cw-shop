@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
             dispatch({ type: "Auth - Login", payload: { user: data?.user } as IUserLoginRes });
         }
 
-        console.log(data?.user);
+        console.log(data);
     }, [status, data]);
 
     // JWT CheckToken without NextAuth

@@ -1,4 +1,5 @@
 import NextAuth from "next-auth";
+import GoogleProvider from "next-auth/providers/github";
 import GithubProvider from "next-auth/providers/github";
 import Credentials from "next-auth/providers/credentials";
 import { dbUsers } from "../../../database";
@@ -12,6 +13,7 @@ export const authOptions = {
                 email: { label: "Email", type: "email", placeholder: "Your email" },
                 password: { label: "Password", type: "password", placeholder: "Your Password" },
             },
+            // @ts-ignore
             async authorize(credentials) {
                 console.log({ credentials });
                 // TODO: Validate Password
@@ -20,12 +22,27 @@ export const authOptions = {
             },
         }),
 
+        /* GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID!,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+        }), */
+
         GithubProvider({
             clientId: process.env.GITHUB_ID!,
             clientSecret: process.env.GITHUB_SECRET!,
         }),
     ],
 
+    pages: {
+        signIn: "/auth/login",
+        newUser: "/auth/register",
+    },
+
+    session: {
+        maxAge: 2592000,
+        strategy: "jwt",
+        updateAge: 86400,
+    },
     // Callbacks
     callbacks: {
         async jwt({ token, account, user }: any) {

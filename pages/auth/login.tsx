@@ -1,5 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 
+import { GetServerSideProps } from "next";
+import { getSession, signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import NextLink from "next/link";
 
@@ -41,7 +43,7 @@ const LoginPage = () => {
         setExecuteLoginBtn(true);
         setShowError(false);
 
-        const isValidLogin = await loginUser(email, password);
+        /* const isValidLogin = await loginUser(email, password);
 
         if (!isValidLogin) {
             setExecuteLoginBtn(false);
@@ -51,7 +53,12 @@ const LoginPage = () => {
             return;
         }
 
-        router.replace(destination);
+        router.replace(destination); */
+
+        await signIn("credentials", {
+            email,
+            password,
+        });
     };
 
     return (
@@ -113,6 +120,25 @@ const LoginPage = () => {
             </form>
         </AuthLayout>
     );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
+    const session = await getSession({ req });
+
+    const { p = "/" } = query;
+
+    if (session) {
+        return {
+            redirect: {
+                destination: p.toString(),
+                permanent: false,
+            },
+        };
+    }
+
+    return {
+        props: {},
+    };
 };
 
 export default LoginPage;
