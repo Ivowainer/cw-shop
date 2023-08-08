@@ -1,5 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 
+import { GetServerSideProps } from "next";
+import { getSession, signIn } from "next-auth/react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 
@@ -55,7 +57,8 @@ const RegisterPage = () => {
             return;
         }
 
-        router.replace(destination);
+        /* router.replace(destination); */
+        await signIn("credentials", { email, password });
     };
 
     return (
@@ -68,7 +71,7 @@ const RegisterPage = () => {
                                 Sign in
                             </Typography>
                             <Box sx={{ marginTop: "10px" }}>
-                                <Chip label="Mail already registered" color="error" className="fadeIn" sx={{ padding: "10px 0px", display: showError ? "flex" : "none" }} />
+                                <Chip label={errorMessage} color="error" className="fadeIn" sx={{ padding: "10px 0px", display: showError ? "flex" : "none" }} />
                             </Box>
                         </Grid>
 
@@ -128,6 +131,25 @@ const RegisterPage = () => {
             </form>
         </AuthLayout>
     );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
+    const session = await getSession({ req });
+
+    const { p = "/" } = query;
+
+    if (session) {
+        return {
+            redirect: {
+                destination: p.toString(),
+                permanent: false,
+            },
+        };
+    }
+
+    return {
+        props: {},
+    };
 };
 
 export default RegisterPage;

@@ -88,6 +88,7 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
             };
         } catch (error: any) {
             if (axios.isAxiosError(error)) {
+                console.log();
                 return {
                     hasError: true,
                     message: error.response?.data.message,
@@ -96,7 +97,8 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
 
             return {
                 hasError: true,
-                message: "Mail already registered",
+                /* message: "Mail already registered", */
+                message: error.response?.data.message,
             };
         }
     };
