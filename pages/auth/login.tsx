@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 
 import { GetServerSideProps } from "next";
-import { getSession, signIn } from "next-auth/react";
+import { getSession, signIn, getProviders } from "next-auth/react";
 import { useRouter } from "next/router";
 import NextLink from "next/link";
 
@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 
 import { AuthContext } from "../../context";
 
-import { Box, Button, Chip, Grid, Link, TextField, Typography } from "@mui/material";
+import { Box, Button, Chip, Grid, Link, TextField, Typography, Divider } from "@mui/material";
 import { AuthLayout } from "../../components/layouts";
 
 import { validations } from "../../utils";
@@ -22,13 +22,22 @@ type FormData = {
 const LoginPage = () => {
     const router = useRouter();
 
-    const { loginUser, isLoggedIn } = useContext(AuthContext);
+    const { isLoggedIn } = useContext(AuthContext);
 
     //prettier-ignore
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
 
     const [showError, setShowError] = useState(false);
     const [executeLoginBtn, setExecuteLoginBtn] = useState(false);
+    const [providers, setProviders] = useState<any>({});
+
+    useEffect(() => {
+        getProviders().then((prov) => {
+            setProviders(prov);
+
+            console.log(prov);
+        });
+    }, []);
 
     const destination = router.query.p?.toString() || "/";
     useEffect(() => {
@@ -114,6 +123,19 @@ const LoginPage = () => {
                                     <Typography>{`You don't have account?`}</Typography>
                                 </Link>
                             </NextLink>
+                        </Grid>
+
+                        <Grid item xs={12} display="flex" justifyContent="end" flexDirection="column">
+                            <Divider sx={{ width: "100%", mb: 2 }} />
+                            {Object.values(providers).map((provider: any) => {
+                                if (provider.id === "credentials") return <div key="credentials"></div>;
+
+                                return (
+                                    <Button onClick={() => signIn(provider.id)} key={provider.id} variant="outlined" fullWidth color="primary" sx={{ mb: 1 }}>
+                                        {provider.name}
+                                    </Button>
+                                );
+                            })}
                         </Grid>
                     </Grid>
                 </Box>
