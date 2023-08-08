@@ -1,12 +1,13 @@
 ### CW Ecommerce Shop 💸
 
-<img width="35%" align="right" alt="Github" src="https://c.tenor.com/aU4TQZ5a0NAAAAAM/past-due-expenses-my-stimulus.gif" />
+<img width="30%" align="right" alt="Github" src="https://www.zuplic.com/wp-content/uploads/2018/07/eCommerce-Animated-GIF.gif" />
 
 This is a real project with NextJS.
 
 - 🛍️ Explore the extensive product section
 - 🔍 Fácil búsqueda y navegación
-- 🛒 Añade tus productos al carrito de compras
+- 🛒 Add products to cart
+- Create or login with user password and mail
 - 💳 Methods payments (In progress)
 - 📱 Responsive and flexible website
 - 🖥️ With a beautiful custom dashboard for admins (in progress)
